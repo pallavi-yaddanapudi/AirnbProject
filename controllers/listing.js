@@ -3,6 +3,7 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken:mapToken });
 
+
 // Controller to display all listings
 module.exports.index = async (req, res) => {
     const allListings = await Listing.find({});

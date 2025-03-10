@@ -18,6 +18,19 @@
     border-radius:25px;
     padding:0.5rem 3rem 0.5rem 3rem;
   }
+  .tax-info {
+          display: none;
+        }
+
+  .tax-toggle {
+     display: flex; /* Ensures switch and text stay in one line */
+      align-items: center; /* Vertically centers items */
+      border: 1px solid black;
+      border-radius:50px !important;
+      padding:1rem;
+      height:3.25rem; 
+    
+    }
 </style>
 
 <nav class="navbar navbar-expand-md navbar-light bg-body-light border-bottom sticky-top">
@@ -37,14 +50,23 @@
           </form>
         </div>
         <div class="navbar-nav ms-auto">
+        <div class="tax-toggle">
+          <div class="d-flex align-items-center">
+            <label class="form-check-label me-2" for="flexSwitchCheckDefault">Display total after taxes</label>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+            </div>
+          </div>
+        </div>   
+      </div> 
+        <div class="navbar-nav ms-auto">
           <a class="nav-link" href="/listings/new">Airbnb your home</a>
-          <% if(!currUser) {  %>
+          <% if (typeof currUser !== "undefined" && currUser) { %>
+            <a class="nav-link" href="/logout"><b>Log out</b></a>
+        <% } else { %>
             <a class="nav-link active" href="/signup"><b>Sign up</b></a>
             <a class="nav-link" href="/login"><b>Log in</b></a>
-          <% } %>
-          <% if(currUser) {  %>
-            <a class="nav-link" href="logout"><b>Log out</b></a>
-          <% } %>
+        <% } %>
         </div>
       </div>
     </div>

@@ -15,6 +15,8 @@ const flash=require("connect-flash");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const User=require("./models/user.js");
+const wrapAsync = require("./utils/wrapAsync.js");
+const Listing = require("./models/listing.js");
 
 const listingRouter=require("./routes/listing.js");
 const reviewRouter=require("./routes/review.js");
@@ -67,13 +69,15 @@ const sessionOptions = {
     }
 }; 
 
-// Home
-// app.get("/", (req, res) => {
-//     res.send("working");
-// });
 
 app.use(session(sessionOptions));
 app.use(flash());
+
+// Home
+app.get("/", wrapAsync(async (req, res) => {
+    const allListings = await Listing.find({});
+    res.render("listings/index.ejs", { allListings })
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -83,8 +87,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next) => {
-    res.locals.success=req.flash("success");
-    res.locals.error=req.flash("error");
+    res.locals.success=req.flash("success") || [];
+    res.locals.error=req.flash("error") || [];
     res.locals.currUser=req.user;
     next(); 
 });
